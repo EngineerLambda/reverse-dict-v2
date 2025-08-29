@@ -3,6 +3,7 @@ from vectordb import VectorDB
 from llm_helper import get_words
 import asyncio
 
+st.set_page_config(page_title="Reverse Dictionary", page_icon="📚")
 st.title("Reverse Dictionary")
 
 def format_results(results):

@@ -34,7 +34,7 @@ GOOGLE_API_KEY="YOUR_GOOGLE_API_KEY"
 1.  **Clone the repository**:
 
     ```bash
-    git clone https://github.com/your-username/reverse-dict-v2.git
+    git clone https://github.com/EngineerLambda/reverse-dict-v2.git
     cd reverse-dict-v2
     ```
 
