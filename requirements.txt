@@ -1,6 +1,8 @@
 pandas
 joblib
+streamlit
 pinecone>=5.0.0
 aiohttp>=3.9.5
 python-dotenv
 google-genai
+nest_asyncio

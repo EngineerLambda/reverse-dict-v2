@@ -2,17 +2,22 @@ import streamlit as st
 from vectordb import VectorDB
 from llm_helper import get_words
 import asyncio
+import nest_asyncio
+
+# Patch event loop so Streamlit and asyncio can co-exist
+nest_asyncio.apply()
 
 st.set_page_config(page_title="Reverse Dictionary", page_icon="📚")
 st.title("Reverse Dictionary")
 
+# universal async runner
 def run_async(coro):
-    try:
-        loop = asyncio.get_event_loop()
-    except RuntimeError:  # no loop in this thread
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-    return loop.run_until_complete(coro)
+    loop = asyncio.get_event_loop()
+    if loop.is_running():
+        # if already running (Streamlit case), use ensure_future
+        return asyncio.run_coroutine_threadsafe(coro, loop).result()
+    else:
+        return loop.run_until_complete(coro)
 
 def format_results(results):
     for word, definition in zip(results["words"], results["definitions"]):
@@ -27,8 +32,10 @@ if st.button("Find word"):
         db = VectorDB("reverse-dictionary")
         
         db_results = run_async(db.query_store(user_input))["matches"]
-        db_results = {"words": [match["metadata"]["word"] for match in db_results],
-                      "definitions": [match["metadata"]["description"] for match in db_results]}
+        db_results = {
+            "words": [match["metadata"]["word"] for match in db_results],
+            "definitions": [match["metadata"]["description"] for match in db_results],
+        }
         format_results(db_results)
 
     with col2:
