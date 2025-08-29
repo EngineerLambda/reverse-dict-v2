@@ -17,8 +17,9 @@ if st.button("Find word"):
     with col1:
         st.subheader("Vector Search Based")
         db = VectorDB("reverse-dictionary")
-
-        db_results = asyncio.run(db.query_store(user_input))["matches"]
+        
+        loop = asyncio.get_event_loop()
+        db_results = loop.run_until_complete(db.query_store(user_input))["matches"]
         db_results = {"words": [match["metadata"]["word"] for match in db_results],
                       "definitions": [match["metadata"]["description"] for match in db_results]}
         format_results(db_results)
