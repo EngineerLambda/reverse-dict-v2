@@ -1,0 +1,15 @@
+[project]
+name = "reverse-dict-v2"
+version = "0.1.0"
+description = "A reverse dictionary based on both vector search and LLM structured output"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "google-genai>=1.32.0",
+    "joblib>=1.5.2",
+    "pandas>=2.3.2",
+    "pinecone>=7.3.0",
+    "python-dotenv>=1.1.1",
+    "streamlit>=1.49.0",
+    "tqdm>=4.67.1",
+]
