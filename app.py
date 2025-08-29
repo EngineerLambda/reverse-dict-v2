@@ -6,6 +6,14 @@ import asyncio
 st.set_page_config(page_title="Reverse Dictionary", page_icon="📚")
 st.title("Reverse Dictionary")
 
+def run_async(coro):
+    try:
+        loop = asyncio.get_event_loop()
+    except RuntimeError:  # no loop in this thread
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+    return loop.run_until_complete(coro)
+
 def format_results(results):
     for word, definition in zip(results["words"], results["definitions"]):
         with st.expander(f"{word}", expanded=False):
@@ -18,8 +26,7 @@ if st.button("Find word"):
         st.subheader("Vector Search Based")
         db = VectorDB("reverse-dictionary")
         
-        loop = asyncio.get_event_loop()
-        db_results = loop.run_until_complete(db.query_store(user_input))["matches"]
+        db_results = run_async(db.query_store(user_input))["matches"]
         db_results = {"words": [match["metadata"]["word"] for match in db_results],
                       "definitions": [match["metadata"]["description"] for match in db_results]}
         format_results(db_results)
