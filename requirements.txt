@@ -1,7 +1,6 @@
 pandas
 joblib
 streamlit
-pinecone
 python-dotenv
 google-genai
 pinecone[asyncio]
