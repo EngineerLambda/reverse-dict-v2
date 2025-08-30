@@ -21,7 +21,7 @@ def run_async(coro):
 
 def format_results(results):
     for word, definition in zip(results["words"], results["definitions"]):
-        with st.expander(f"{word}", expanded=False):
+        with st.expander(f"{' '.join(word.split('_')).title()}", expanded=False):
             st.write(definition)
 
 user_input = st.text_input("Describe the word you're thinking of")
