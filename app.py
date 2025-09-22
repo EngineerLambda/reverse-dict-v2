@@ -31,12 +31,15 @@ if st.button("Find word"):
         st.subheader("Vector Search Based")
         db = VectorDB("reverse-dictionary")
         
-        db_results = run_async(db.query_store(user_input))["matches"]
-        db_results = {
+        try:
+            db_results = run_async(db.query_store(user_input))["matches"]
+            db_results = {
             "words": [match["metadata"]["word"] for match in db_results],
             "definitions": [match["metadata"]["description"] for match in db_results],
         }
-        format_results(db_results)
+            format_results(db_results)
+        except:
+    st.error("Error loading vector based implementation")
 
     with col2:
         st.subheader("LLM Based")
