@@ -39,7 +39,7 @@ if st.button("Find word"):
         }
             format_results(db_results)
         except:
-    st.error("Error loading vector based implementation")
+            st.error("Error loading vector based implementation")
 
     with col2:
         st.subheader("LLM Based")
